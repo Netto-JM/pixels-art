@@ -1,4 +1,5 @@
-/* Da linha 4 a 10, utilizando "Universal Box Sizing with Inheritance"
+/* Da linha 5 a 11, utilizando "Universal Box Sizing with Inheritance" para manter
+o tamanho dos itens de acordo com os valores pré-estabelecidos
 fonte: https://css-tricks.com/box-sizing/ */
 
 html {
@@ -50,4 +51,20 @@ html {
   width: 5.5rem;
   height: 5.5rem;
   padding: 0;
+}
+
+#pixel-board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  width: 200px;
+  height: 200px;
+
+}
+
+.pixel {
+  background-color: white;
+  border: 1px solid black;
+  width: 40px;
+  height: 40px;
 }
