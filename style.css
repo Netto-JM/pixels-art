@@ -1,21 +1,31 @@
+/* Da linha 4 a 10, utilizando "Universal Box Sizing with Inheritance"
+fonte: https://css-tricks.com/box-sizing/ */
+
+html {
+  box-sizing: border-box;
+}
+
+* , *:before , *:after {
+  box-sizing: inherit;
+}
+
 #title {
   font-size: 3rem;
 }
 
 #color-palette {
-  border: 5px solid black;
+  border: 3px solid black;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 50%;
+  width: 70%;
   height: 7rem;
 }
 
 .color {
-  display: inline-block;
   border: 1px solid black;
-  width: 4rem;
-  height: 4rem;
+  width: 5.5rem;
+  height: 5.5rem;
   padding: 10px;
 }
 
@@ -33,4 +43,11 @@
 
 .color:nth-of-type( 4 ) {
   background-color: yellow;
+}
+
+#button-random-color {
+  border: 1px solid black;
+  width: 5.5rem;
+  height: 5.5rem;
+  padding: 0;
 }
