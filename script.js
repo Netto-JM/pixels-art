@@ -13,11 +13,24 @@ function generateRandomColor() {
 }
 
 function addRandomColors() {
+  const randomColors = [];
   for (let index = 1; index < colorBlocks.length; index += 1) {
     const block = colorBlocks[index];
     const randomColor = generateRandomColor();
+    randomColors.push(randomColor);
+    block.style.backgroundColor = randomColor;
+  }
+  localStorage.setItem('randomColors', JSON.stringify(randomColors));
+}
+
+function recoverColorPallet() {
+  const randomColors = JSON.parse(localStorage.getItem('randomColors'));
+  for (let index = 1; index < colorBlocks.length; index += 1) {
+    const block = colorBlocks[index];
+    const randomColor = randomColors[index - 1];
     block.style.backgroundColor = randomColor;
   }
 }
 
 randomizerButton.addEventListener('click', addRandomColors);
+document.addEventListener('DOMContentLoaded', recoverColorPallet);
