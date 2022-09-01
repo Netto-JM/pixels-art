@@ -42,13 +42,24 @@ function selectColor(event) {
   event.target.classList.add('selected');
 }
 
-function clickHandler(event, className) {
-  if (event.target.classList.contains(className)) {
+function paintPixel(event) {
+  const selectedBlock = document.querySelector('.selected');
+  const blockStyle = window.getComputedStyle(selectedBlock);
+  const selectedColor = blockStyle.backgroundColor;
+  const selectedPixel = event.target;
+  selectedPixel.style.backgroundColor = selectedColor;
+}
+
+function clickHandler(event) {
+  const clickedElement = event.target;
+  if (clickedElement.classList.contains('color')) {
     selectColor(event);
+  } else if (clickedElement.classList.contains('pixel')) {
+    paintPixel(event);
   }
 }
 
 randomizerButton.addEventListener('click', addRandomColors);
 document.addEventListener('DOMContentLoaded', recoverColorPallet);
 
-document.addEventListener('click', (event) => { clickHandler(event, 'color'); });
+document.addEventListener('click', (event) => { clickHandler(event); });
