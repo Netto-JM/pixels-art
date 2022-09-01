@@ -35,5 +35,20 @@ function recoverColorPallet() {
   }
 }
 
+function selectColor(event) {
+  for (let index = 0; index < colorBlocks.length; index += 1) {
+    colorBlocks[index].classList.remove('selected');
+  }
+  event.target.classList.add('selected');
+}
+
+function clickHandler(event, className) {
+  if (event.target.classList.contains(className)) {
+    selectColor(event);
+  }
+}
+
 randomizerButton.addEventListener('click', addRandomColors);
-window.addEventListener('load', recoverColorPallet);
+document.addEventListener('DOMContentLoaded', recoverColorPallet);
+
+document.addEventListener('click', (event) => { clickHandler(event, 'color'); });
