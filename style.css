@@ -10,6 +10,14 @@ html {
   box-sizing: inherit;
 }
 
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 #title {
   font-size: 3rem;
 }
@@ -28,6 +36,7 @@ html {
   width: 5.5rem;
   height: 5.5rem;
   padding: 10px;
+  border-radius: 50%;
 }
 
 .color:nth-of-type( 1 ) {
@@ -46,7 +55,7 @@ html {
   background-color: yellow;
 }
 
-#button-random-color {
+#button-random-color , #clear-board {
   border: 1px solid black;
   width: 5.5rem;
   height: 5.5rem;

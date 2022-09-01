@@ -1,6 +1,8 @@
 // testing windows size 1366 x 768
 const colorBlocks = document.getElementsByClassName('color');
+const pixels = document.getElementsByClassName('pixel');
 const randomizerButton = document.getElementById('button-random-color');
+const clearButton = document.getElementById('clear-board');
 
 function generateRandomColor() {
   const colorValues = [];
@@ -59,7 +61,14 @@ function clickHandler(event) {
   }
 }
 
+function clearGrid() {
+  for (let index = 0; index < pixels.length; index += 1) {
+    pixels[index].style.backgroundColor = 'white';
+  }
+}
+
 randomizerButton.addEventListener('click', addRandomColors);
+clearButton.addEventListener('click', clearGrid);
 document.addEventListener('DOMContentLoaded', recoverColorPallet);
 
 document.addEventListener('click', (event) => { clickHandler(event); });
