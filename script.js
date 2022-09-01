@@ -2,18 +2,40 @@
 const colorBlocks = document.getElementsByClassName('color');
 const pixels = document.getElementsByClassName('pixel');
 const randomizerButton = document.getElementById('button-random-color');
+const generateButton = document.getElementById('generate-board');
+const generateInput = document.getElementById('board-size');
 const clearButton = document.getElementById('clear-board');
-const pixelArt = {};
+const container = document.getElementById('board-container');
+let pixelBoard = document.getElementById('pixel-board');
+let pixelArt = {};
+const recover = document.getElementById('recover');
 
-const obj = {
-  [clearButton]: 'testing',
-};
+function appendTextNode(element, text) {
+  const textNode = document.createTextNode(text);
+  element.appendChild(textNode);
+}
 
-const obj2 = {
-  [randomizerButton]: 'testing',
-};
+function addClassesToElement(element, classArray) {
+  element.classList.add(...classArray);
+}
 
-console.log(obj, obj2);
+function addIdToElement(element, idName) {
+  element.setAttribute('id', idName);
+}
+
+function createElementWithText(element, text) {
+  const newElement = document.createElement(element);
+  if (text) appendTextNode(newElement, text);
+  return newElement;
+}
+
+function completeElementBuilder(element, parent, classArray, idName) {
+  const newElement = createElementWithText(element);
+  if (classArray) addClassesToElement(newElement, classArray);
+  if (idName) addIdToElement(newElement, idName);
+  if (parent) parent.appendChild(newElement);
+  return newElement;
+}
 
 function generateRandomColor() {
   const colorValues = [];
@@ -49,13 +71,15 @@ function recoverColorPallet() {
 }
 
 function recoverPixelArt() {
-  const localPixelArt = localStorage.getItem('pixelBoard');
-  if (localPixelArt !== null) {
-    const recoveredPixelArt = JSON.parse(localPixelArt);
-    Object.keys(recoveredPixelArt).forEach(((location) => {
+  pixelArt = localStorage.getItem('pixelBoard') || pixelArt;
+  const isPaintedBoard = JSON.stringify(pixelArt).length > 2;
+  if (pixelArt !== null && isPaintedBoard) {
+    pixelArt = JSON.parse(pixelArt);
+    console.log('rec', pixelArt);
+    Object.keys(pixelArt).forEach(((location) => {
       const pixelClass = `.${location}`;
       const pixel = document.querySelector(pixelClass);
-      pixel.style.backgroundColor = recoveredPixelArt[location];
+      pixel.style.backgroundColor = pixelArt[location];
     }));
   }
 }
@@ -69,7 +93,9 @@ function selectColor(event) {
 
 function savePixelInLocalStorage(selectedPixel, selectedColor) {
   const pixelLocation = selectedPixel.classList[1];
+  console.log('loc', pixelArt[pixelLocation]);
   pixelArt[pixelLocation] = selectedColor;
+  console.log('painting', pixelArt);
   localStorage.setItem('pixelBoard', JSON.stringify(pixelArt));
 }
 
@@ -95,11 +121,44 @@ function clearGrid() {
   for (let index = 0; index < pixels.length; index += 1) {
     pixels[index].style.backgroundColor = 'white';
   }
+  localStorage.removeItem('pixelBoard');
+  pixelArt = {};
+}
+
+function styleNewBoard(board, size) {
+  const styledPixelBoard = board.cloneNode(true);
+  const template = `repeat(${size}, 1fr)`;
+  const proportion = `${size * 40}px`;
+  styledPixelBoard.style.gridTemplateColumns = template;
+  styledPixelBoard.style.gridTemplateRows = template;
+  styledPixelBoard.style.width = proportion;
+  styledPixelBoard.style.height = proportion;
+  return styledPixelBoard;
+}
+
+function generateBoard() {
+  if (generateInput.value.length === 0) {
+    return alert('Board inválido!');
+  }
+  container.removeChild(pixelBoard);
+  pixelBoard = completeElementBuilder('div', undefined, undefined, 'pixel-board');
+  const boardSize = Number(generateInput.value);
+  pixelBoard = styleNewBoard(pixelBoard, boardSize);
+  container.appendChild(pixelBoard);
+  for (let index1 = 1; index1 <= boardSize; index1 += 1) {
+    for (let index2 = 1; index2 <= boardSize; index2 += 1) {
+      const className = `p${index1}-${index2}`;
+      completeElementBuilder('div', pixelBoard, ['pixel', className]);
+    }
+  }
+  localStorage.removeItem('pixelBoard');
+  pixelArt = {};
 }
 
 randomizerButton.addEventListener('click', addRandomColors);
 clearButton.addEventListener('click', clearGrid);
+generateButton.addEventListener('click', generateBoard);
 document.addEventListener('DOMContentLoaded', recoverColorPallet);
 document.addEventListener('DOMContentLoaded', recoverPixelArt);
-
+recover.addEventListener('click', recoverPixelArt);
 document.addEventListener('click', (event) => { clickHandler(event); });
