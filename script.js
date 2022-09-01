@@ -3,6 +3,17 @@ const colorBlocks = document.getElementsByClassName('color');
 const pixels = document.getElementsByClassName('pixel');
 const randomizerButton = document.getElementById('button-random-color');
 const clearButton = document.getElementById('clear-board');
+const pixelArt = {};
+
+const obj = {
+  [clearButton]: 'testing',
+};
+
+const obj2 = {
+  [randomizerButton]: 'testing',
+};
+
+console.log(obj, obj2);
 
 function generateRandomColor() {
   const colorValues = [];
@@ -37,11 +48,29 @@ function recoverColorPallet() {
   }
 }
 
+function recoverPixelArt() {
+  const localPixelArt = localStorage.getItem('pixelBoard');
+  if (localPixelArt !== null) {
+    const recoveredPixelArt = JSON.parse(localPixelArt);
+    Object.keys(recoveredPixelArt).forEach(((location) => {
+      const pixelClass = `.${location}`;
+      const pixel = document.querySelector(pixelClass);
+      pixel.style.backgroundColor = recoveredPixelArt[location];
+    }));
+  }
+}
+
 function selectColor(event) {
   for (let index = 0; index < colorBlocks.length; index += 1) {
     colorBlocks[index].classList.remove('selected');
   }
   event.target.classList.add('selected');
+}
+
+function savePixelInLocalStorage(selectedPixel, selectedColor) {
+  const pixelLocation = selectedPixel.classList[1];
+  pixelArt[pixelLocation] = selectedColor;
+  localStorage.setItem('pixelBoard', JSON.stringify(pixelArt));
 }
 
 function paintPixel(event) {
@@ -50,6 +79,7 @@ function paintPixel(event) {
   const selectedColor = blockStyle.backgroundColor;
   const selectedPixel = event.target;
   selectedPixel.style.backgroundColor = selectedColor;
+  savePixelInLocalStorage(selectedPixel, selectedColor);
 }
 
 function clickHandler(event) {
@@ -70,5 +100,6 @@ function clearGrid() {
 randomizerButton.addEventListener('click', addRandomColors);
 clearButton.addEventListener('click', clearGrid);
 document.addEventListener('DOMContentLoaded', recoverColorPallet);
+document.addEventListener('DOMContentLoaded', recoverPixelArt);
 
 document.addEventListener('click', (event) => { clickHandler(event); });
