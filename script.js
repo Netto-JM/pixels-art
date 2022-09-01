@@ -136,13 +136,19 @@ function styleNewBoard(board, size) {
   return styledPixelBoard;
 }
 
+function defineBoardSize(inputedNumber) {
+  if (inputedNumber > 50) return 50;
+  if (inputedNumber < 5) return 5;
+  return inputedNumber;
+}
+
 function generateBoard() {
   if (generateInput.value.length === 0) {
     return alert('Board inválido!');
   }
   container.removeChild(pixelBoard);
   pixelBoard = completeElementBuilder('div', undefined, undefined, 'pixel-board');
-  const boardSize = Number(generateInput.value);
+  const boardSize = defineBoardSize(Number(generateInput.value));
   pixelBoard = styleNewBoard(pixelBoard, boardSize);
   container.appendChild(pixelBoard);
   for (let index1 = 1; index1 <= boardSize; index1 += 1) {
