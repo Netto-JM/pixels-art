@@ -1,4 +1,3 @@
-// testing windows size 1366 x 768
 const colorBlocks = document.getElementsByClassName('color');
 const pixels = document.getElementsByClassName('pixel');
 const randomizerButton = document.getElementById('button-random-color');
@@ -7,8 +6,8 @@ const generateInput = document.getElementById('board-size');
 const clearButton = document.getElementById('clear-board');
 const container = document.getElementById('board-container');
 let pixelBoard = document.getElementById('pixel-board');
-let pixelArt = {};
 const recover = document.getElementById('recover');
+let pixelArt = {};
 
 function appendTextNode(element, text) {
   const textNode = document.createTextNode(text);
@@ -79,9 +78,7 @@ function selectColor(event) {
 
 function savePixelInLocalStorage(selectedPixel, selectedColor) {
   const pixelLocation = selectedPixel.classList[1];
-  console.log('loc', pixelArt[pixelLocation]);
   pixelArt[pixelLocation] = selectedColor;
-  console.log('painting', pixelArt);
   localStorage.setItem('pixelBoard', JSON.stringify(pixelArt));
 }
 
@@ -156,7 +153,6 @@ function recoverPixelArt() {
   const isPaintedBoard = JSON.stringify(pixelArt).length > 2;
   if (pixelArt !== null && isPaintedBoard) {
     pixelArt = JSON.parse(pixelArt);
-    console.log('rec', pixelArt);
     Object.keys(pixelArt).forEach(((location) => {
       const pixelClass = `.${location}`;
       const pixel = document.querySelector(pixelClass);
