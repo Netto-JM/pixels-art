@@ -6,7 +6,6 @@ const generateInput = document.getElementById('board-size');
 const clearButton = document.getElementById('clear-board');
 const container = document.getElementById('board-container');
 let pixelBoard = document.getElementById('pixel-board');
-const recover = document.getElementById('recover');
 let pixelArt = {};
 
 function appendTextNode(element, text) {
@@ -173,5 +172,4 @@ clearButton.addEventListener('click', clearGrid);
 generateButton.addEventListener('click', generateButtonHandler);
 document.addEventListener('DOMContentLoaded', recoverColorPallet);
 document.addEventListener('DOMContentLoaded', recoverPixelArt);
-recover.addEventListener('click', recoverPixelArt);
 document.addEventListener('click', (event) => { clickHandler(event); });
